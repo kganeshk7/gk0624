@@ -36,3 +36,22 @@ Response :
 ```
 
 The above data gets printed in the console as well in the requested format. 
+
+````
+```
+Tool code: LADW
+Tool type: Ladder
+Tool brand: Werner
+Rental days: 3
+Checkout date: 07/02/20
+Due date: 07/05/20
+Daily rental charge: $1.99
+Charge days: 3
+Pre-discount charge: $5.97
+Discount percent: 10%
+Discount amount: $0.60
+Final charge: $5.37
+
+````
+```
+
