@@ -23,7 +23,7 @@ public class ApplicationUtils {
 
         // Labor Day logic
         LocalDate laborDay = LocalDate.of(date.getYear(), 9, 1)
-                .with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
+                .with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY)); // First Monday
 
         return date.equals(independenceDay) || date.equals(laborDay);
     }

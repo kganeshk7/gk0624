@@ -1,6 +1,6 @@
 package com.demo.gk0624.controller;
 
-import com.demo.gk0624.entity.RentalAgreement;
+import com.demo.gk0624.model.RentalAgreementResponse;
 import com.demo.gk0624.model.RentalRequest;
 import com.demo.gk0624.service.ToolRentalService;
 import jakarta.validation.Valid;
@@ -19,15 +19,15 @@ public class RentalToolController {
         private ToolRentalService toolRentalService;
 
         @PostMapping("/checkout")
-        public ResponseEntity<RentalAgreement> checkout(@Valid @RequestBody RentalRequest rentalRequest) {
+        public ResponseEntity<RentalAgreementResponse> checkout(@Valid @RequestBody RentalRequest rentalRequest) {
             log.info("request received");
-            RentalAgreement rentalAgreement = toolRentalService.checkout(
+            RentalAgreementResponse rentalAgreementResponse = toolRentalService.checkout(
                     rentalRequest.getToolCode(),
                     rentalRequest.getRentalDays(),
                     rentalRequest.getDiscountPercent(),
                     rentalRequest.getCheckoutDate()
             );
-            return ResponseEntity.ok(rentalAgreement);
+            return ResponseEntity.ok(rentalAgreementResponse);
         }
 
         @GetMapping("/test")

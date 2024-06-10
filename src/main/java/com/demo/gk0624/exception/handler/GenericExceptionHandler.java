@@ -1,5 +1,6 @@
 package com.demo.gk0624.exception.handler;
 
+import com.demo.gk0624.exception.ApplicationException;
 import com.demo.gk0624.exception.model.ErrorDetails;
 import com.demo.gk0624.exception.model.FieldValidationError;
 import com.demo.gk0624.util.ApplicationConstants;
@@ -32,23 +33,18 @@ public class GenericExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 
-//	@ExceptionHandler({ VoIPServiceException.class})
-//	public final ResponseEntity<?> handleVoIPExceptions(Exception ex, WebRequest request) {
-//		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), ex.getCause()!=null ? ex.getCause().getMessage():ex.getMessage(),
-//				request.getDescription(false));
-//		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
-//
-//
+	@ExceptionHandler({ ApplicationException.class})
+	public final ResponseEntity<?> handleVoIPExceptions(Exception ex, WebRequest request) {
+		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), ex.getCause()!=null ? ex.getCause().getMessage():ex.getMessage(),
+				request.getDescription(false));
+		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<ErrorDetails> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), ex.getCause()!=null ? ex.getCause().getMessage():ex.getMessage(),
 				request.getDescription(false));
 		return ResponseEntity.badRequest().body(errorDetails);
 	}
-
-//	}
-//}
 
 	// to Handle all generic method arugment validation and returns a proper format response.
 	@Override

@@ -1,14 +1,15 @@
 package com.demo.gk0624.service;
 
-import com.demo.gk0624.entity.RentalAgreement;
-import com.demo.gk0624.entity.Tool;
-import com.demo.gk0624.repo.RentalAgreementRepository;
+import com.demo.gk0624.exception.ApplicationException;
+import com.demo.gk0624.model.RentalAgreementResponse;
+import com.demo.gk0624.entity.ToolInfo;
 import com.demo.gk0624.repo.ToolRepository;
 import com.demo.gk0624.util.ApplicationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 
 @Service
@@ -17,19 +18,16 @@ public class ToolRentalService {
     @Autowired
     private ToolRepository toolRepository;
 
-    @Autowired
-    private RentalAgreementRepository rentalAgreementRepository;
-
-    public RentalAgreement checkout(String toolCode, int rentalDays, int discountPercent, LocalDate checkoutDate) {
+    public RentalAgreementResponse checkout(String toolCode, int rentalDays, int discountPercent, LocalDate checkoutDate) {
         if (rentalDays < 1) {
-            throw new IllegalArgumentException("Rental day count must be at least 1");
+            throw new ApplicationException("Rental day count must be at least 1");
         }
         if (discountPercent < 0 || discountPercent > 100) {
-            throw new IllegalArgumentException("Discount percent must be between 0 and 100");
+            throw new ApplicationException("Discount percent must be between 0 and 100");
         }
 
-        Tool tool = toolRepository.findById(toolCode)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid tool code"));
+        ToolInfo tool = toolRepository.findById(toolCode)
+                .orElseThrow(() -> new ApplicationException("Invalid tool code"));
 
         LocalDate dueDate = checkoutDate.plusDays(rentalDays);
         int chargeDays = calculateChargeDays(tool, checkoutDate, dueDate);
@@ -38,27 +36,26 @@ public class ToolRentalService {
         BigDecimal discountAmount = preDiscountCharge.multiply(BigDecimal.valueOf(discountPercent)).divide(BigDecimal.valueOf(100));
         BigDecimal finalCharge = preDiscountCharge.subtract(discountAmount);
 
-        RentalAgreement rentalAgreement = new RentalAgreement();
-        rentalAgreement.setToolCode(toolCode);
-        rentalAgreement.setToolType(tool.getToolType());
-        rentalAgreement.setBrand(tool.getBrand());
-        rentalAgreement.setRentalDays(rentalDays);
-        rentalAgreement.setCheckoutDate(checkoutDate);
-        rentalAgreement.setDueDate(dueDate);
-        rentalAgreement.setDailyCharge(tool.getDailyCharge());
-        rentalAgreement.setChargeDays(chargeDays);
-        rentalAgreement.setPreDiscountCharge(preDiscountCharge);
-        rentalAgreement.setDiscountPercent(discountPercent);
-        rentalAgreement.setDiscountAmount(discountAmount);
-        rentalAgreement.setFinalCharge(finalCharge);
-
-        rentalAgreementRepository.save(rentalAgreement);
-        return rentalAgreement;
+        RentalAgreementResponse rentalAgreementResponse = new RentalAgreementResponse();
+        rentalAgreementResponse.setToolCode(toolCode);
+        rentalAgreementResponse.setToolType(tool.getToolType());
+        rentalAgreementResponse.setBrand(tool.getBrand());
+        rentalAgreementResponse.setRentalDays(rentalDays);
+        rentalAgreementResponse.setCheckoutDate(checkoutDate);
+        rentalAgreementResponse.setDueDate(dueDate);
+        rentalAgreementResponse.setDailyCharge(tool.getDailyCharge());
+        rentalAgreementResponse.setChargeDays(chargeDays);
+        rentalAgreementResponse.setPreDiscountCharge(preDiscountCharge.setScale(2, RoundingMode.HALF_UP));
+        rentalAgreementResponse.setDiscountPercent(discountPercent);
+        rentalAgreementResponse.setDiscountAmount(discountAmount.setScale(2, RoundingMode.HALF_UP));
+        rentalAgreementResponse.setFinalCharge(finalCharge.setScale(2, RoundingMode.HALF_UP)); // rounding this due to test case failure.. Though it is not mentioned in the document to round final charges.
+        rentalAgreementResponse.print(); // Printing to console as requested in doc
+        return rentalAgreementResponse;
     }
 
-    private int calculateChargeDays(Tool tool, LocalDate checkoutDate, LocalDate dueDate) {
+    private int calculateChargeDays(ToolInfo tool, LocalDate checkoutDate, LocalDate dueDate) {
         int chargeDays = 0;
-        LocalDate currentDate = checkoutDate.plusDays(1);
+        LocalDate currentDate = checkoutDate; // Including both start date and end date as part of charges and it was confusing for me to calcuate, Need more clarity on inclusion and eclusion dates..
 
         while (!currentDate.isAfter(dueDate)) {
             boolean isWeekend = ApplicationUtils.isWeekend(currentDate);
