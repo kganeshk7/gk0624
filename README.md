@@ -1,8 +1,9 @@
 # How to run this app at Local
 
+Run as a simple spring boot /Java application on Eclipse/IntelliJ. 
 
 # Tech stacks used 
-Sprint boot 3 , JPA, H2(In memory) , Lombok 
+Sprint boot 3 , JPA, H2(In memory) , Lombok , Junit 5 
 
 # Endpoints
 ````
@@ -52,20 +53,13 @@ Discount percent: 10%
 Discount amount: $0.60
 Final charge: $5.37
 
-````
-```
 
-All Junit Test cases are passing as expected. 
-
-
-### If an request input parameters are missing the below format you would get API response
-
-Example :
-
-Request :
+All Junit Test cases are passing as expected.
 
 ````
+# If Invalid request is passed via API then response would be 400 and will tell what parameter is missing 
 ```
+Request : 
 {
     
     "rentalDays": 3,
@@ -93,6 +87,8 @@ Response :
         }
     ]
 }
+
+Check GenericExceptionHander.java for more details. 
 
 ````
 ```
