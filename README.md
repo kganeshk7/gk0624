@@ -1,8 +1,9 @@
 # How to run this app at Local
 
+Run as a simple spring boot /Java application on Eclipse/IntelliJ. 
 
 # Tech stacks used 
-Sprint boot 3 , JPA, H2(In memory) , Lombok 
+Sprint boot 3 , JPA, H2(In memory) , Lombok , Junit 5 
 
 # Endpoints
 ````
