@@ -56,3 +56,43 @@ Final charge: $5.37
 ```
 
 All Junit Test cases are passing as expected. 
+
+
+### If an request input parameters are missing the below format you would get API response
+
+Example :
+
+Request :
+
+````
+```
+{
+    
+    "rentalDays": 3,
+    "discountPercent": 10,
+    "checkoutDate":"2020-07-02"
+}
+ 
+````
+```
+
+Response :
+
+````
+```
+{
+    "timestamp": "2024-06-10T22:16:02.884+00:00",
+    "message": "Validation failed",
+    "requestDetails": "uri=/rentals/checkout",
+    "errorDetails": [
+        {
+            "field": "toolCode",
+            "code": "NotEmpty",
+            "rejectedValue": null,
+            "errorMsg": "toolCode must not be empty"
+        }
+    ]
+}
+
+````
+```
