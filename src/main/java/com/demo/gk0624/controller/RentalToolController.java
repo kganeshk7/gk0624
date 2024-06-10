@@ -29,11 +29,4 @@ public class RentalToolController {
             );
             return ResponseEntity.ok(rentalAgreementResponse);
         }
-
-        @GetMapping("/test")
-    public RentalRequest getRentalAgreement() {
-            RentalRequest request = new RentalRequest();
-            request.setCheckoutDate(LocalDate.now());
-            return request;
-        }
 }
