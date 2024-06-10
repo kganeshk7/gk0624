@@ -52,13 +52,12 @@ Discount percent: 10%
 Discount amount: $0.60
 Final charge: $5.37
 
-````
-```
 
-All Junit Test cases are passing as expected. 
+All Junit Test cases are passing as expected.
 
 
-### If an request input parameters are missing the below format you would get API response
+
+# If Invalid request is sent over API then API resonse would tell what parameter user is missing 
 
 Example :
 
