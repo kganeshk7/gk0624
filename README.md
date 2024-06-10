@@ -55,3 +55,4 @@ Final charge: $5.37
 ````
 ```
 
+All Junit Test cases are passing as expected. 
