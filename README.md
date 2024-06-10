@@ -87,5 +87,7 @@ Response :
     ]
 }
 
+Check GenericExceptionHander.java for more details. 
+
 ````
 ```
