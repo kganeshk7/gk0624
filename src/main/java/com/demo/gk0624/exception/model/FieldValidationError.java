@@ -1,5 +1,8 @@
 package com.demo.gk0624.exception.model;
 
+import lombok.Data;
+
+@Data
 public class FieldValidationError {
 
 	private String field;
@@ -14,37 +17,4 @@ public class FieldValidationError {
 		this.rejectedValue = rejectedValue;
 		this.errorMsg = errorMsg;
 	}
-
-	public String getField() {
-		return field;
-	}
-
-	public void setField(String field) {
-		this.field = field;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public Object getRejectedValue() {
-		return rejectedValue;
-	}
-
-	public void setRejectedValue(Object rejectedValue) {
-		this.rejectedValue = rejectedValue;
-	}
-
-	public String getErrorMsg() {
-		return errorMsg;
-	}
-
-	public void setErrorMsg(String errorMsg) {
-		this.errorMsg = errorMsg;
-	}
-
 }

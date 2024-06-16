@@ -27,7 +27,7 @@ public class GenericExceptionHandler extends ResponseEntityExceptionHandler {
 	public final ResponseEntity<?> handleGenericExceptions(Exception ex, WebRequest request) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), ex.getCause()!=null ? ex.getCause().getMessage():ex.getMessage(),
 				request.getDescription(false));
-		// logging all the exceptions here. Just in case an anything is uncaught
+		// logging all the exceptions here. Just in case an anything gets uncaught
        logger.error(ex);
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
@@ -46,20 +46,18 @@ public class GenericExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.badRequest().body(errorDetails);
 	}
 
-	// to Handle all generic method arugment validation and returns a proper format response.
+	// to Handle all generic method argument validation and returns a proper format response.
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 		System.out.println("I am here");
 		ErrorDetails errorDetails = new ErrorDetails(
-				new Date(), ApplicationConstants.VALIDATION_FAILED,
+				new Date(), ApplicationConstants.VALIDATION_FAILED.getText(),
 						ex.getBindingResult()
 						.getFieldErrors()
 						.stream()
 						.map((field) -> new FieldValidationError(field.getField(), field.getCode(), field.getRejectedValue(),field.getDefaultMessage()))
 						.toList(), request.getDescription(false));
 		  logger.error(ex);
-		System.out.println(ex.getMessage());
-
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 

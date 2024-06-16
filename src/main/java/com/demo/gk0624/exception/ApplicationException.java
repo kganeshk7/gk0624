@@ -7,11 +7,9 @@ public class ApplicationException extends RuntimeException {
     public ApplicationException(String message) {
         super(message);
     }
-
     public ApplicationException(Throwable th) {
         super(th);
     }
-
     public ApplicationException(String message, Throwable th) {
         super(message,th);
     }

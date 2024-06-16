@@ -55,7 +55,7 @@ public class ToolRentalService {
 
     private int calculateChargeDays(ToolInfo tool, LocalDate checkoutDate, LocalDate dueDate) {
         int chargeDays = 0;
-        LocalDate currentDate = checkoutDate; // Including both start date and end date as part of charges and it was confusing for me to calcuate, Need more clarity on inclusion and eclusion dates..
+        LocalDate currentDate = checkoutDate; // Including both start date and end date as part of charges, and it was confusing for me to calculate, Need more clarity on inclusion and eclusion dates..
 
         while (!currentDate.isAfter(dueDate)) {
             boolean isWeekend = ApplicationUtils.isWeekend(currentDate);
