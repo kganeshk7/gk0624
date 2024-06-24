@@ -8,6 +8,9 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
+/**
+ * Model Class to accept request from client
+ */
 @Data
 public class RentalRequest {
 

@@ -18,6 +18,17 @@ public class ToolRentalService {
     @Autowired
     private ToolRepository toolRepository;
 
+    /**
+     * Method to calculate charges on tool. This calcualte charge days and final price based on holiday
+     * @param toolCode - Actual Tool Code
+     * @param rentalDays - No of rental days for the tool
+     * @param discountPercent - discount percentage if applicable
+     * @param checkoutDate - Actual date when checking out the tool from the store
+     * @Exception -
+     *   - Rental days must be >1
+     *   - toolCode must be present in dataase.
+     * @return RentalAgreementResponse tool charges with all the details including no of charge days
+     */
     public RentalAgreementResponse checkout(String toolCode, int rentalDays, int discountPercent, LocalDate checkoutDate) {
         if (rentalDays < 1) {
             throw new ApplicationException("Rental day count must be at least 1");
@@ -53,9 +64,17 @@ public class ToolRentalService {
         return rentalAgreementResponse;
     }
 
+    /**
+     * Calculate charge days between checkout and dueDate. Method also considers if there
+     * is any weekend or weekdays holidays such as 4th July or Labor days.
+     * @param tool - Tool Code
+     * @param checkoutDate chekout Date fo the tool
+     * @param dueDate - Due Date when tool will be returned.
+     * @return - No of charge days between checkout and dueDate start and endDate inclusive
+     */
     private int calculateChargeDays(ToolInfo tool, LocalDate checkoutDate, LocalDate dueDate) {
         int chargeDays = 0;
-        LocalDate currentDate = checkoutDate; // Including both start date and end date as part of charges, and it was confusing for me to calculate, Need more clarity on inclusion and eclusion dates..
+        LocalDate currentDate = checkoutDate; // Including both start date and end date as part of charges 
 
         while (!currentDate.isAfter(dueDate)) {
             boolean isWeekend = ApplicationUtils.isWeekend(currentDate);

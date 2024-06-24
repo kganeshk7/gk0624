@@ -18,7 +18,12 @@ public class RentalToolController {
         @Autowired
         private ToolRentalService toolRentalService;
 
-        @PostMapping("/checkout")
+    /**
+     * Handler method to accept request from end client and return the final checkout repsonse
+     * @param rentalRequest - Request details about the tool and checkout days
+     * @return - {@link RentalAgreementResponse} Actual response with all the charges and no of charge days
+     */
+    @PostMapping("/checkout")
         public ResponseEntity<RentalAgreementResponse> checkout(@Valid @RequestBody RentalRequest rentalRequest) {
             log.info("request received");
             RentalAgreementResponse rentalAgreementResponse = toolRentalService.checkout(

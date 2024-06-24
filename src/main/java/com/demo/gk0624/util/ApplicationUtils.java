@@ -6,11 +6,22 @@ import java.time.temporal.TemporalAdjusters;
 
 public class ApplicationUtils {
 
+    /**
+     * Checks if given date is week-end
+     * @param date
+     * @return
+     */
     public static boolean isWeekend(LocalDate date) {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
     }
 
+    /**
+     * This method return if the given date is holiday or not. This considers 4th July  either Friday or Monday based
+     * date and labor day and
+     * @param date - passed to check if holiday or not
+     * @return true or false
+     */
     public static boolean isHoliday(LocalDate date) {
         // Independence Day logic
         LocalDate independenceDay = LocalDate.of(date.getYear(), 7, 4); // 4th July, This can be configurable if we consider to have more holidays later in the future.
